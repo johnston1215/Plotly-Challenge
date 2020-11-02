@@ -1,21 +1,51 @@
 // Step 1: Plotly
 
 // 1. Use the D3 library to read in `samples.json`.
-d3.json("../samples.json").then(function(data) {
-    console.log(data);
-});
+function init() {
+    d3.json("../samples.json").then(function(data) {
+        console.log(data);
+        var s = data.samples;
+        var n = data.names;
+        var m = data.metadata;
+        console.log(n);
+        console.log(s);
+        console.log(m);
+        //Populate DD menu
+        var select = d3.select("#selDataset");
+        console.log(select)
+        n.forEach(name => {
+            select
+            .append("option")
+            .property("value", name)
+            .text(name)
+        });
+ 
+        //render bar chart
+            //render bubble chart
+        //populate metadata table
+    });
+};
+init();
+    
+function optionChanged(sampleID) {
+    d3.json("../samples.json").then(function(data) {
+        var s = data.samples;
+        var m = data.metadata;
+        var targetMeta = m.filter(metadata => metadata.id == sampleID);
+        console.log(targetMeta);
+    });
+};
+
+             //render bar chart
+// NewFunction, call optionChanged
+            //render bubble chart
+// NewFunction, call optionChanged
+        //populate metadata table
+// NewFunction, call optionChanged
+
+
+
 // 2. Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
-
-//Populate dropdown menu
-d3.json("../samples.json").then(function(data) {
-    var s = data.samples;
-    var n = data.names;
-    var m = data.metadata;
-    console.log(n);
-    console.log(s);
-    console.log(m);
-});
-
 
 // * Use `sample_values` as the values for the bar chart.
 
