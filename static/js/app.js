@@ -12,17 +12,17 @@ function init() {
         console.log(m);
         //Populate DD menu
         var select = d3.select("#selDataset");
-        console.log(select)
+        console.log(select);
         n.forEach(name => {
             select
             .append("option")
             .property("value", name)
-            .text(name)
+            .text(name);
         });
- 
+
         //render bar chart
             //render bubble chart
-        //populate metadata table
+
     });
 };
 init();
@@ -33,14 +33,20 @@ function optionChanged(sampleID) {
         var m = data.metadata;
         var targetMeta = m.filter(metadata => metadata.id == sampleID);
         console.log(targetMeta);
+        //populate metadata table
+        var fill = d3.select("#sample-metadata");
+        Object.entries(targetMeta[0])
+        .forEach(function([key,value]) {
+            fill.append("p").text(`${key}: ${value}`)
+        })
     });
 };
+
+// Day 2 exercise 4 --  Data must be deleted before selecting another ID
 
              //render bar chart
 // NewFunction, call optionChanged
             //render bubble chart
-// NewFunction, call optionChanged
-        //populate metadata table
 // NewFunction, call optionChanged
 
 
@@ -48,11 +54,6 @@ function optionChanged(sampleID) {
 // 2. Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
 
 // * Use `sample_values` as the values for the bar chart.
-
-//0 - id
-//1 - otu_ids
-//2 - sample_values
-//3 - otu_labels
 
 // function makeCharts(sample) {
 
