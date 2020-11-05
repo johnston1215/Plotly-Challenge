@@ -21,12 +21,10 @@ function init() {
         });
     });
 };
-init();
     
 function optionChanged(sampleID) {
-    // d3.event.preventDefault();
-    // var clear = d3.select("p");
-    // clear.html("");
+    var clear = d3.select("#sample-metadata");
+    clear.html("");
     d3.json("../samples.json").then(function(data) {
         var s = data.samples;
         var m = data.metadata;
@@ -47,26 +45,30 @@ function optionChanged(sampleID) {
 // * Use `otu_labels` for the text values.
     function bplot(){
         d3.json("../samples.json").then(function(data) {
-            var otuid = data.samples.otu_ids;
-            var sampVal = data.samples.sample_values;
-            var otulabel = data.samples.otu_labels;
+            data = data.samples.filter(otu => otu.id == sampleID);
+            var otuid = data.map(oi => oi.otu_ids);
+            var sampVal = data.map(sv => sv.sample_values);
+            var otulabel = data.map(ol => ol.otu_labels);
             console.log(otuid);
             console.log(sampVal);
             console.log(otulabel);
             var trace1 = {
-                x: otuid,
-                y: sampVal,
+                x: otuid[0],
+                y: sampVal[0],
+                // type: "bubble",
                 mode: 'markers',
-                marker: {sampVal}
+                marker: {size: sampVal[0], color: otuid[0]},
+                text: otulabel[0]
             };
 
-            var data = [trace1];
-            Plotly.newPlot("#bubble", data);
+            var barData = [trace1];
+            Plotly.newPlot("bubble", barData);
+            console.log(trace1)
         });
     };
     bplot();
 };
-
+init();
 // Day 2 exercise 4 --  Data must be deleted before selecting another ID
 
              //render bar chart
