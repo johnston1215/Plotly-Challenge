@@ -1,6 +1,6 @@
 // 1. Use the D3 library to read in `samples.json`.
 function init() {
-    d3.json("../samples.json").then(function(data) {
+    d3.json("./samples.json").then(function(data) {
         console.log(data);
         var n = data.names;
         //Populate DD menu
@@ -17,7 +17,7 @@ function init() {
 function optionChanged(sampleID) {
     var clear = d3.select("#sample-metadata");
     clear.html("");
-    d3.json("../samples.json").then(function(data) {
+    d3.json("./samples.json").then(function(data) {
         var m = data.metadata;
         var targetMeta = m.filter(metadata => metadata.id == sampleID);
         console.log(targetMeta);
@@ -35,7 +35,7 @@ function optionChanged(sampleID) {
 // * Use `otu_ids` for the marker colors.
 // * Use `otu_labels` for the text values.
     function bplot(){
-        d3.json("../samples.json").then(function(data) {
+        d3.json("./samples.json").then(function(data) {
             data = data.samples.filter(otu => otu.id == sampleID);
             var otuid = data.map(oi => oi.otu_ids);
             var sampVal = data.map(sv => sv.sample_values);
@@ -58,7 +58,7 @@ function optionChanged(sampleID) {
     // * Use `otu_ids` as the labels for the bar chart.
     // * Use `otu_labels` as the hovertext for the chart.
     function hplot(){
-        d3.json("../samples.json").then(function(data) {
+        d3.json("./samples.json").then(function(data) {
             data = data.samples.filter(otu => otu.id == sampleID)[0];
             console.log(data);
             var sv = data.sample_values.slice(0, 10);
