@@ -2,15 +2,9 @@
 function init() {
     d3.json("../samples.json").then(function(data) {
         console.log(data);
-        // var s = data.samples;
         var n = data.names;
-        // var m = data.metadata;
-        // console.log(n);
-        // console.log(s);
-        // console.log(m);
         //Populate DD menu
         var select = d3.select("#selDataset");
-        // console.log(select);
         n.forEach(name => {
             select
             .append("option")
@@ -24,7 +18,6 @@ function optionChanged(sampleID) {
     var clear = d3.select("#sample-metadata");
     clear.html("");
     d3.json("../samples.json").then(function(data) {
-        // var s = data.samples;
         var m = data.metadata;
         var targetMeta = m.filter(metadata => metadata.id == sampleID);
         console.log(targetMeta);
@@ -47,9 +40,6 @@ function optionChanged(sampleID) {
             var otuid = data.map(oi => oi.otu_ids);
             var sampVal = data.map(sv => sv.sample_values);
             var otulabel = data.map(ol => ol.otu_labels);
-            // console.log(otuid);
-            // console.log(sampVal);
-            // console.log(otulabel);
             var trace1 = {
                 x: otuid[0],
                 y: sampVal[0],
@@ -60,7 +50,6 @@ function optionChanged(sampleID) {
 
             var bubData = [trace1];
             Plotly.newPlot("bubble", bubData);
-            // console.log(trace1)
         });
     };
     bplot();
@@ -70,40 +59,31 @@ function optionChanged(sampleID) {
     // * Use `otu_labels` as the hovertext for the chart.
     function hplot(){
         d3.json("../samples.json").then(function(data) {
-            var s = data.samples
-            console.log(s);
-            var sorted = s.sort((a,b) => b.sample_values - a.sample_values);
-            console.log(sorted);
-            var sliced = sorted.slice(0, 10);
-            console.log(sliced);
+            data = data.samples.filter(otu => otu.id == sampleID)[0];
+            console.log(data);
+            var sv = data.sample_values.slice(0, 10);
+            // console.log(sv);
+            var otuid = data.otu_ids.slice(0,10);
+            // console.log(otuid);
+            var otulab = data.otu_labels.slice(0,10);
+            // console.log(otulab);
 
             var trace2 = {
-                x: sliced.map(object => object.sample_values),
-                y: sliced.map(object => object.otu_ids),
-                text: sliced.map(object => object.otu_labels),
+                x: sv.reverse(),
+                y: otuid.map(function(x){return `otu id - ${x}`}).reverse(),
+                text: otulab.reverse(),
                 name: "Top 10 OTU",
                 type: "bar",
                 orientation: "h",
             };
-
+            // console.log(trace2["x"]);
+            // console.log(trace2["y"]);
             var barData = [trace2];
             Plotly.newPlot("bar", barData);
-            console.log(trace2)
+            // console.log(trace2)
         });
     };
     hplot();
 
 };
 init();
-
-// console.log(sliced);
-// var trace1 = {
-//     type: "hbar",
-//     mode: "lines",
-//     name: "Top 10",
-//     x: value,
-//     y: id,
-//     line: {
-//       color: "#17BECF"
-//     }
-//   };
